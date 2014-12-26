@@ -1,0 +1,14 @@
+{
+    "name": "enigmatix/yii2-widgets",
+    "description": "yii2 widgets for fast implementation of fancy fields and easy display features",
+    "authors": [
+        {
+            "name": "Joel Small",
+            "email": "joel.small@biscon.com.au"
+        }
+    ],
+    "require": {
+        "kartik-v/yii2-widgets": "*",
+        "php": ">=5.3.0"
+    }
+}
