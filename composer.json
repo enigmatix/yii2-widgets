@@ -15,15 +15,7 @@
     "repositories": [
             {
                 "type": "vcs",
-                "package": {
-                    "name": "enigmatix/yii2-helpers",
-                    "version": "dev-master",
-                    "source": {
-                        "url": "git://github.com/enigmatix/yii2-helpers.git",
-                        "type": "git",
-                        "reference": "master"
-                    }
-                }
+                "url": "git://github.com/enigmatix/yii2-helpers.git"
             }
     ],
     "autoload": {
