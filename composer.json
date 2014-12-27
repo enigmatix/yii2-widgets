@@ -26,5 +26,10 @@
                     }
                 }
             }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "enigmatix\\widgets\\": ""
+        }
+    }
 }
