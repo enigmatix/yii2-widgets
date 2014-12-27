@@ -1,6 +1,6 @@
 <?php
 namespace enigmatix\widgets;
-use kartik\widgets\Select2Asset;
+use kartik\select2\Select2Asset;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use enigmatix\helpers\Parameters;
@@ -78,7 +78,7 @@ SCRIPT;
     {
         $view = $this->getView();
 
-//        Select2Asset::register($view);
+        Select2Asset::register($view);
         if($this->model)
         {
             echo Html::activeInput('input', $this->model, $this->name,['id' => $this->id,'class' =>'form-control','value' => $this->value]);
