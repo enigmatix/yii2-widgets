@@ -6,8 +6,8 @@ use yii\helpers\Json;
 use enigmatix\helpers\Parameters;
 
 /**
- * Class Tags
- * @package frontend\widgets
+ * Class Select2
+ * @package enigmatix\widgets
  * @author Joel Small
  * @email joel.small@biscon.com.au
  *
@@ -24,7 +24,7 @@ class Select2 extends \yii\bootstrap\Widget
     public $url;
     public $urlById;
     public $value;
-    public $placeholder = "Search for requestor";
+    public $placeholder = "Search";
     public $allowNew = false;
     public $escapeMarkup = 'function (m) { return m; }';
     public $dropdownClass = 'bigdrop';
@@ -49,7 +49,7 @@ class Select2 extends \yii\bootstrap\Widget
             'dataType' => 'json',
             'data' => "function (term, page) {return {q: term,};}",
             'results' => ' function (data, page) {return {results: data.results};}',
-            ];
+        ];
     }
 
     protected function getInitSelection()
@@ -77,17 +77,16 @@ SCRIPT;
     public function run()
     {
         $view = $this->getView();
-
+        $fieldName = $this->attribute;
         Select2Asset::register($view);
         if($this->model)
         {
-            echo Html::activeInput('input', $this->model, $this->name,['id' => $this->id,'class' =>'form-control','value' => $this->value]);
+            echo Html::activeInput('input', $this->model, $this->attribute,['id' => $this->id,'class' =>'form-control','value' => $this->model->$fieldName]);
         }else{
-            echo Html::input('input', $this->name,$this->value,['id' => $this->id,'class' =>'form-control']);
+            echo Html::input('input', $this->attribute,$this->model->$fieldName,['id' => $this->id,'class' =>'form-control']);
         }
         $script = "$(\"#$this->id\").select2(".$this->getOptions().")".$this->getAppendedItems().";";
         $view = $this->getView();
         $view->registerJs($script);
-
     }
 }
