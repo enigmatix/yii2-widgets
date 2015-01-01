@@ -77,18 +77,19 @@ SCRIPT;
     }
     public function run()
     {
-        if($this->value = '')
-        {
-            $this->value = $this->default;
-        }
         $view = $this->getView();
         $fieldName = $this->attribute;
+        $value = $this->model->$fieldName;
+        if($value == '')
+        {
+            $value = $this->default;
+        }
         Select2Asset::register($view);
         if($this->model)
         {
-            echo Html::activeInput('input', $this->model, $this->attribute,['id' => $this->id,'class' =>'form-control','value' => $this->model->$fieldName]);
+            echo Html::activeInput('input', $this->model, $this->attribute,['id' => $this->id,'class' =>'form-control','value' => $value]);
         }else{
-            echo Html::input('input', $this->attribute,$this->model->$fieldName,['id' => $this->id,'class' =>'form-control']);
+            echo Html::input('input', $this->attribute,$value,['id' => $this->id,'class' =>'form-control']);
         }
         $script = "$(\"#$this->id\").select2(".$this->getOptions().")".$this->getAppendedItems().";";
         $view = $this->getView();
