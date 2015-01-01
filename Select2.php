@@ -29,6 +29,7 @@ class Select2 extends \yii\bootstrap\Widget
     public $escapeMarkup = 'function (m) { return m; }';
     public $dropdownClass = 'bigdrop';
     public $createSearchChoice = 'function (term){return {id: term, text: term};}';
+    public $default;
 
     protected function getOptions()
     {
@@ -76,6 +77,10 @@ SCRIPT;
     }
     public function run()
     {
+        if($this->value = '')
+        {
+            $this->value = $this->default;
+        }
         $view = $this->getView();
         $fieldName = $this->attribute;
         Select2Asset::register($view);
