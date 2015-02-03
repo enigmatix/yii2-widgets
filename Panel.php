@@ -54,6 +54,7 @@ class Panel extends \yii\bootstrap\Widget
         $content = '';
         foreach ($this->links as $key => $value)
         {
+            if($value == null) continue;
             if(!array_key_exists('class', $value))
             {
                 $value['class'] = $this->defaultClass;
@@ -61,6 +62,10 @@ class Panel extends \yii\bootstrap\Widget
             if(array_key_exists('title', $value))
             {
                 $key = $value['title'];
+            }
+            if(array_key_exists('badge', $value) && $value['badge'] != 0)
+            {
+                $key .= '<span class="badge">'.$value['badge'].'</span>';
             }
 
             if(array_key_exists('content', $value))
