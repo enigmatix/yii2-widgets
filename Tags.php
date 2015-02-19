@@ -46,7 +46,7 @@ class Tags extends \yii\bootstrap\Widget
 
 SCRIPT;
 
-        if($this->onChange){$script .= '.on("change", function(e){ $.ajax("'.$this->onChange.'&'.$this->name.'=" + e.val);})';}
+        if($this->onChange){$script .= '.on("change", function(e){ $.ajax("'.$this->onChange.'&" + $("#'.$this->id.'").serialize());})';}
         if($this->disabled){$script .= '.prop("disabled", true)';}
         $script .= ';';
         $view = $this->getView();
