@@ -16,10 +16,11 @@ class DataColumn extends \yii\grid\DataColumn
     protected function renderDataCellContent($model, $key, $index)
     {
         $content = parent::renderDataCellContent($model, $key, $index);
-        if($this->grid->options['href'] != null)
+        $options = $this->grid->options;
+        if(array_key_exists('href', $options) && $options['href'] != null)
         {
-            $field = $this->grid->options['field'];
-            $content = Html::tag('a',$content,['href' => $this->grid->options['href']."?".$field."=".$model->$field,'class' => 'btn-block']);
+            $field = $options['field'];
+            $content = Html::tag('a',$content,['href' => $options['href']."?".$field."=".$model->$field,'class' => 'btn-block']);
         }
         return $content;
     }
