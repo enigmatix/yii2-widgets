@@ -79,7 +79,9 @@ SCRIPT;
     {
         $view = $this->getView();
         $fieldName = $this->attribute;
-        $value = $this->model->$fieldName;
+        $value ='';
+        if(isset($this->model) && $fieldName != '')
+            $value = $this->model->$fieldName;
         if($value == '')
         {
             $value = $this->default;
