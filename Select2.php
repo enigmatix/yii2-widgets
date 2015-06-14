@@ -30,6 +30,7 @@ class Select2 extends \yii\bootstrap\Widget
     public $dropdownClass = 'bigdrop';
     public $createSearchChoice = 'function (term){return {id: term, text: term};}';
     public $default;
+    public $valuePrefix = '';
 
     protected function getOptions()
     {
@@ -49,16 +50,25 @@ class Select2 extends \yii\bootstrap\Widget
             'url' => $this->url,
             'dataType' => 'json',
             'data' => "function (term, page) {return {q: term,};}",
-            'results' => ' function (data, page) {return {results: data.results};}',
+            'results' => $this->getResultQuery(),
         ];
     }
 
+    protected function getResultQuery(){
+        if($this->valuePrefix == ''){
+             return  ' function (data, page) {return {results: data.results};}';
+        }else{
+            $string = 'data.results.map(function(item){return item["id"] = "'. $this->valuePrefix . '" + item["id"];});';
+            $string = "function (data, page) {".$string." return {results: data.results};}";
+            return $string;
+        }
+    }
     protected function getInitSelection()
     {
         return 'function(element, callback) {
             var id=$(element).val();
-            if(id!==""){
-                $.ajax("'.$this->urlById.'?id="+id, {dataType: "json"}).done(function(data) { callback(data.results[0]); });}
+            if(id.substr('.strlen($this->valuePrefix).') !==""){
+                $.ajax("'.$this->urlById.'?id="+id.substr('.strlen($this->valuePrefix).'), {dataType: "json"}).done(function(data) { callback(data.results[0]); });}
                 }';
     }
 
@@ -78,14 +88,9 @@ SCRIPT;
     public function run()
     {
         $view = $this->getView();
-        $fieldName = $this->attribute;
-        $value ='';
+        $fieldName = $this->getFieldName();
         if(isset($this->model) && $fieldName != '')
-            $value = $this->model->$fieldName;
-        if($value == '')
-        {
-            $value = $this->default;
-        }
+        $value = $this->retrieveValue($fieldName);
         Select2Asset::register($view);
         if($this->model)
         {
@@ -96,5 +101,21 @@ SCRIPT;
         $script = "$(\"#$this->id\").select2(".$this->getOptions().")".$this->getAppendedItems().";";
         $view = $this->getView();
         $view->registerJs($script);
+    }
+
+    public function getFieldName(){
+        return str_replace('[]','',$this->attribute);
+    }
+
+    public function retrieveValue($fieldName){
+        if($this->value != null){
+            return $this->value;
+        }
+        $value = $this->model->$fieldName;
+        if($value == '')
+        {
+            $value = $this->default;
+        }
+        return $value;
     }
 }

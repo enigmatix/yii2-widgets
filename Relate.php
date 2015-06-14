@@ -28,4 +28,8 @@ class Relate extends Select2
         parent::run();
     }
 
+    public function retrieveValue($fieldName){
+        $value = parent::retrieveValue($fieldName);
+        return $this->valuePrefix . $value;
+    }
 }
