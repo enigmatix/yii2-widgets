@@ -1,6 +1,6 @@
 <?php
 namespace enigmatix\widgets;
-use kartik\select2\Select2Asset;
+use enigmatix\widgets\Select2Asset;
 use yii\helpers\Html;
 
 /**
@@ -12,7 +12,7 @@ use yii\helpers\Html;
  * This class creates a widget that creates a list of tags in the form of a tag cloud.
  */
 
-class Tags extends \yii\bootstrap\Widget
+class Tags extends \yii\widgets\InputWidget
 {
     public $model;
     public $attribute;
@@ -30,15 +30,19 @@ class Tags extends \yii\bootstrap\Widget
     {
         $view = $this->getView();
         Select2Asset::register($view);
+        if($this->value === ''){
+            $this->value = [];
+        }
 
-        if(is_array($this->value))
+        if(!is_array($this->value))
         {
-            $this->value = implode(',', $this->value);
+            $this->value[$this->value] = $this->value;
         }
         $tags = json_encode($this->tags);
-        echo Html::input('input', $this->name, $this->value, ['id' => $this->id,'class' =>'form-control']);
+        echo Html::dropDownList($this->name, $this->value, $this->tags, ['class' =>'form-control','multiple' => true,'id' => $this->options['id']]);
+
         $script =   <<< SCRIPT
-        $("#$this->id").select2({
+        $("#{$this->options['id']}").select2({
             placeholder: "$this->placeholder",
             tags: $tags,
 
@@ -46,7 +50,7 @@ class Tags extends \yii\bootstrap\Widget
 
 SCRIPT;
 
-        if($this->onChange){$script .= '.on("change", function(e){ $.ajax("'.$this->onChange.'&" + $("#'.$this->id.'").serialize());})';}
+        if($this->onChange){$script .= '.on("change", function(e){ $.ajax("'.$this->onChange.'&" + $("#'.$this->options['id'].'").serialize());})';}
         if($this->disabled){$script .= '.prop("disabled", true)';}
         $script .= ';';
         $view = $this->getView();

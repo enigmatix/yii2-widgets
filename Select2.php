@@ -1,10 +1,10 @@
 <?php
 namespace enigmatix\widgets;
-use kartik\select2\Select2Asset;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use enigmatix\helpers\Parameters;
-
+use yii\web\AssetBundle;
+use enigmatix\widgets\Select2Asset;
 /**
  * Class Select2
  * @package enigmatix\widgets
@@ -14,7 +14,7 @@ use enigmatix\helpers\Parameters;
  * This class creates a widget that creates a list of tags in the form of a tag cloud.
  */
 
-class Select2 extends \yii\bootstrap\Widget
+class Select2 extends \yii\widgets\InputWidget
 {
     public $model;
     public $attribute;
@@ -37,8 +37,8 @@ class Select2 extends \yii\bootstrap\Widget
         return Parameters::jsonify([
             'placeholder' => $this->placeholder,
             'ajax'  => $this->getAjaxParams(),
-            'initSelection' => $this->getInitSelection(),
-            'dropdownCssClass' => $this->dropdownClass,
+//            'initSelection' => $this->getInitSelection(),
+//            'dropdownCssClass' => $this->dropdownClass,
             'escapeMarkup' => $this->escapeMarkup,
             'createSearchChoice' => $this->createSearchChoice,
         ]);
@@ -94,11 +94,12 @@ SCRIPT;
         Select2Asset::register($view);
         if($this->model)
         {
-            echo Html::activeInput('input', $this->model, $this->attribute,['id' => $this->id,'class' =>'form-control','value' => $value]);
+            echo Html::activeDropDownList($this->model, $this->attribute,[$this->value => $this->value],['id' => $this->options['id'],'class' =>'form-control','value' => $value]);
         }else{
-            echo Html::input('input', $this->attribute,$value,['id' => $this->id,'class' =>'form-control']);
+            die();
+  //          echo Html::input('select', $this->attribute,$value,['id' => $this->id,'class' =>'form-control']);
         }
-        $script = "$(\"#$this->id\").select2(".$this->getOptions().")".$this->getAppendedItems().";";
+        $script = "$(\"#{$this->options['id']}\").select2(".$this->getOptions().")".$this->getAppendedItems().";";
         $view = $this->getView();
         $view->registerJs($script);
     }

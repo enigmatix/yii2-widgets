@@ -9,6 +9,7 @@
     ],
     "require": {
         "enigmatix/yii2-helpers": "*",
+
         "php": ">=5.3.0"
     },
     "minimum-stability": "dev",

@@ -1,6 +1,5 @@
 <?php
 namespace enigmatix\widgets;
-use kartik\widgets\Select2Asset;
 use yii\helpers\Html;
 
 /**
