@@ -14,7 +14,7 @@ namespace enigmatix\widgets;
  * @author Joel Small
  * @email joel.small@biscon.com.au
  *
- * This class builds of the Select2 widget, programattically defining the values required to build a relate field
+ * This class builds  the Select2 widget, programattically defining the values required to build a relate field
  */
 
 class Relate extends Select2

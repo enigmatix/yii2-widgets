@@ -23,7 +23,8 @@ class Select2 extends \yii\widgets\InputWidget
     public $pluginOptions;
     public $url;
     public $urlById;
-    public $value;
+//    public $value;
+    public $label;
     public $placeholder = "Search";
     public $allowNew = false;
     public $escapeMarkup = 'function (m) { return m; }';
@@ -41,6 +42,7 @@ class Select2 extends \yii\widgets\InputWidget
 //            'dropdownCssClass' => $this->dropdownClass,
             'escapeMarkup' => $this->escapeMarkup,
             'createSearchChoice' => $this->createSearchChoice,
+            'dropdownAutoWidth' => 'true'
         ]);
     }
 
@@ -87,6 +89,7 @@ SCRIPT;
     }
     public function run()
     {
+        $label = $this->label == null ? $this->value : $this->label;
         $view = $this->getView();
         $fieldName = $this->getFieldName();
         if(isset($this->model) && $fieldName != '')
@@ -94,7 +97,7 @@ SCRIPT;
         Select2Asset::register($view);
         if($this->model)
         {
-            echo Html::activeDropDownList($this->model, $this->attribute,[$this->value => $this->value],['id' => $this->options['id'],'class' =>'form-control','value' => $value]);
+            echo Html::activeDropDownList($this->model, $this->attribute,[$value => $this->label],['id' => $this->options['id'],'class' =>'form-control','value' => $value]);
         }else{
             die();
   //          echo Html::input('select', $this->attribute,$value,['id' => $this->id,'class' =>'form-control']);
@@ -112,7 +115,17 @@ SCRIPT;
         if($this->value != null){
             return $this->value;
         }
-        $value = $this->model->$fieldName;
+        if(strpos($fieldName,'[') !== false){
+
+            $parts = explode('[', $fieldName);
+
+            $key = substr($parts[1], 0, -1);
+            $varName = $parts[0];
+            $array = $this->model->$varName;
+            $value = $array[$key];
+        } else{
+            $value = $this->model->$fieldName;
+        }
         if($value == '')
         {
             $value = $this->default;
