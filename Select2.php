@@ -91,11 +91,8 @@ SCRIPT;
     {
         $fieldName  = $this->getFieldName();
         $value      = $this->retrieveValue($fieldName);
-        $label = $this->label == null ? $this->value : $this->label;
-        $view = $this->getView();
-        $fieldName = $this->getFieldName();
-        if(isset($this->model) && $fieldName != '')
-            $value = $this->retrieveValue($fieldName);
+        $label      = $this->label == null ? $value : $this->label;
+        $view       = $this->getView();
         Select2Asset::register($view);
         if($this->model)
         {
