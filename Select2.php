@@ -58,7 +58,7 @@ class Select2 extends \yii\widgets\InputWidget
 
     protected function getResultQuery(){
         if($this->valuePrefix == ''){
-             return  ' function (data, page) {return {results: data.results};}';
+            return  ' function (data, page) {return {results: data.results};}';
         }else{
             $string = 'data.results.map(function(item){return item["id"] = "'. $this->valuePrefix . '" + item["id"];});';
             $string = "function (data, page) {".$string." return {results: data.results};}";
@@ -89,18 +89,20 @@ SCRIPT;
     }
     public function run()
     {
+        $fieldName  = $this->getFieldName();
+        $value      = $this->retrieveValue($fieldName);
         $label = $this->label == null ? $this->value : $this->label;
         $view = $this->getView();
         $fieldName = $this->getFieldName();
         if(isset($this->model) && $fieldName != '')
-        $value = $this->retrieveValue($fieldName);
+            $value = $this->retrieveValue($fieldName);
         Select2Asset::register($view);
         if($this->model)
         {
             echo Html::activeDropDownList($this->model, $this->attribute,[$value => $this->label],['id' => $this->options['id'],'class' =>'form-control','value' => $value]);
         }else{
             die();
-  //          echo Html::input('select', $this->attribute,$value,['id' => $this->id,'class' =>'form-control']);
+            //          echo Html::input('select', $this->attribute,$value,['id' => $this->id,'class' =>'form-control']);
         }
         $script = "$(\"#{$this->options['id']}\").select2(".$this->getOptions().")".$this->getAppendedItems().";";
         $view = $this->getView();
@@ -124,6 +126,7 @@ SCRIPT;
             $array = $this->model->$varName;
             $value = $array[$key];
         } else{
+
             $value = $this->model->$fieldName;
         }
         if($value == '')
