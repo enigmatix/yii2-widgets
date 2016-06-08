@@ -50,13 +50,13 @@ class DatePicker extends \yii\widgets\InputWidget
         $value      = $this->retrieveValue($fieldName);
 
         DatepickerAsset::register($view);
-        echo "<div class='input-group date' id='ledatetimepicker'>";
+        echo "<div class='input-group date' id='{$this->id}'>";
         echo "<span class=\"input-group-addon\">
                         <span class=\"glyphicon glyphicon-calendar\"></span>
                     </span>";
         echo Html::activeTextInput($this->model, $this->attribute,['id' => $this->options['id'],'class' =>'form-control','value' => $value,'readonly' => 'true']);
         echo "</div>";
-        $script = "$(\"#ledatetimepicker\").datepicker({$this->getOptions()}){$this->getAppendedItems()};";
+        $script = "$(\"#{$this->id}\").datepicker({$this->getOptions()}){$this->getAppendedItems()};";
 
         $view->registerJs($script);
     }
