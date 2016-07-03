@@ -8,6 +8,8 @@
 
 namespace enigmatix\widgets;
 
+use enigmatix\yii2select\Select2;
+
 /**
  * Class Relate
  * @package enigmatix\widgets
