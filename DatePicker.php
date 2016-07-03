@@ -2,8 +2,6 @@
 namespace enigmatix\widgets;
 use yii\helpers\Html;
 use yii\helpers\Json;
-use enigmatix\helpers\Parameters;
-use enigmatix\widgets\DatepickerAsset;
 /**
  * Class Select2
  * @package enigmatix\widgets
@@ -38,7 +36,7 @@ class DatePicker extends \yii\widgets\InputWidget
 
     protected function getOptions()
     {
-        return Parameters::jsonify(
+        return Json::encode(
             $this->pluginOptions
         );
     }

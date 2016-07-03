@@ -8,17 +8,9 @@
         }
     ],
     "require": {
-        "enigmatix/yii2-helpers": "*",
-
         "php": ">=5.4.0"
     },
     "minimum-stability": "stable",
-    "repositories": [
-            {
-                "type": "vcs",
-                "url": "git://github.com/enigmatix/yii2-helpers.git"
-            }
-    ],
     "autoload": {
         "psr-4": {
             "enigmatix\\widgets\\": ""
