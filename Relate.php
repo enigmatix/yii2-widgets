@@ -26,7 +26,6 @@ class Relate extends Select2
     public function run()
     {
         $this->url = "/rest-".$this->controller."/get-".$this->controller."-list";
-        $this->urlById = "/rest-".$this->controller."/get-".$this->controller."-by-id";
         parent::run();
     }
 
