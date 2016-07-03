@@ -1,8 +1,9 @@
 <?php
 namespace enigmatix\widgets;
-use enigmatix\widgets\Select2Asset;
-use yii\helpers\Html;
 
+use enigmatix\yii2Select\Select2Asset;
+use yii\helpers\Html;
+use yii\widgets\InputWidget;
 /**
  * Class Tags
  * @package frontend\widgets
@@ -12,7 +13,7 @@ use yii\helpers\Html;
  * This class creates a widget that creates a list of tags in the form of a tag cloud.
  */
 
-class Tags extends \yii\widgets\InputWidget
+class Tags extends InputWidget
 {
     public $model;
     public $attribute;
