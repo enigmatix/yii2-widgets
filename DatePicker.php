@@ -14,21 +14,6 @@ use yii\helpers\Json;
 
 class DatePicker extends \yii\widgets\InputWidget
 {
-    public $model;
-    public $attribute;
-    public $tags = [];
-    public $name;
-    public $url;
-    public $urlById;
-//    public $value;
-    public $label;
-    public $placeholder = "Search";
-    public $allowNew = false;
-    public $escapeMarkup = 'function (m) { return m; }';
-    public $dropdownClass = 'bigdrop';
-    public $createSearchChoice = 'function (term){return {id: term, text: term};}';
-    public $default = '';
-    public $valuePrefix = '';
     public $pluginOptions = [
             'format' => 'yyyy-mm-dd',
             'startView' => 'decade',
@@ -43,20 +28,27 @@ class DatePicker extends \yii\widgets\InputWidget
 
     public function run()
     {
-        $view       = $this->getView();
-        $fieldName  = $this->getFieldName();
-        $value      = $this->retrieveValue($fieldName);
-
+        $view   = $this->getView();
+        $script = "$('#{$this->id}').datepicker({$this->getOptions()}){$this->getAppendedItems()};";
+        $view->registerJs($script);
         DatepickerAsset::register($view);
+        $this->outputField();
+
+    }
+
+    protected function outputField(){
         echo "<div class='input-group date' id='{$this->id}'>";
         echo "<span class=\"input-group-addon\">
                         <span class=\"glyphicon glyphicon-calendar\"></span>
                     </span>";
-        echo Html::activeTextInput($this->model, $this->attribute,['id' => $this->options['id'],'class' =>'form-control','value' => $value,'readonly' => 'true']);
+        echo Html::activeTextInput($this->model, $this->attribute,
+            [
+                'id'        => $this->options['id'],
+                'class'     =>'form-control',
+                'value'     => $this->retrieveValue(),
+                'readonly'  => 'true'
+            ]);
         echo "</div>";
-        $script = "$(\"#{$this->id}\").datepicker({$this->getOptions()}){$this->getAppendedItems()};";
-
-        $view->registerJs($script);
     }
 
     protected function getAppendedItems()
@@ -65,18 +57,19 @@ class DatePicker extends \yii\widgets\InputWidget
     }
 
     public function getFieldName(){
-        return $this->attribute;
+        return Html::getAttributeName($this->attribute);
     }
 
-    public function retrieveValue($fieldName){
+    public function retrieveValue(){
+
+        $fieldName  = $this->getFieldName();
+
         if($this->value != null){
             return $this->value;
         }
-        $value = $this->model->$fieldName;
-        if($value == '')
-        {
-            $value = $this->default;
-        }
+
+        $value      = $this->model->$fieldName;
+
         return $value;
     }
 }
