@@ -9,7 +9,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "enigmatix/yii2-widgets":"*"
+        "enigmatix/yii2-widgets":"*",
+        "bower-asset/bootstrap-datepicker": "*"
     },
     "minimum-stability": "stable",
     "autoload": {
