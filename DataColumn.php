@@ -1,5 +1,7 @@
 <?php
 namespace enigmatix\widgets;
+use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /**
@@ -16,13 +18,28 @@ class DataColumn extends \yii\grid\DataColumn
     protected function renderDataCellContent($model, $key, $index)
     {
         $content = parent::renderDataCellContent($model, $key, $index);
-        $options = $this->grid->options;
-        if(array_key_exists('href', $options) && $options['href'] != null)
-        {
-            $field = $options['field'];
-            $content = Html::tag('a',$content,['href' => $options['href']."?".$field."=".$model->$field,'class' => 'btn-block']);
+        return Html::a($content,$this->getViewUrl($model),['class' => 'btn-block']);
+    }
+
+    protected function getViewUrl($model){
+        if (method_exists($model, 'getViewLink')){
+            $link = call_user_func([$model, 'getViewLink']);
+            if (!empty($link))
+                return $link;
         }
-        return $content;
+
+        $func = ArrayHelper::getValue($this->options, 'getViewLink');
+        if (is_callable($func))
+            return call_user_func($func, $model);
+
+        if (method_exists($model, 'getController')){
+            $controller = call_user_func([$model, 'getController']);
+            return [$controller . '/view', 'id' => $model->id];
+        }
+
+        throw new InvalidConfigException("Method getViewLink does not exist in model or in widget options"
+        . " and model does not have a 'getController' method to guess the URL");
+
     }
 }
 ?>
