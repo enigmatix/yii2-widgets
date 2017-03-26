@@ -1,7 +1,7 @@
 <?php
 namespace enigmatix\widgets;
 
-use enigmatix\yii2Select\Select2Asset;
+use enigmatix\select2\Select2Asset;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
 /**
