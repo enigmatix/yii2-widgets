@@ -21,18 +21,20 @@ class DataColumn extends \yii\grid\DataColumn
         return Html::a($content,$this->getViewUrl($model),['class' => 'btn-block']);
     }
 
-    protected function getViewUrl($model){
+    protected function getViewUrl($model)
+    {
+        
+    	$func = ArrayHelper::getValue($this->options, 'getViewLink');
+        if (is_callable($func))
+            return call_user_func($func, $model);
+        
         if (method_exists($model, 'getViewLink')){
             $link = call_user_func([$model, 'getViewLink']);
             if (!empty($link))
                 return $link;
         }
 
-        $func = ArrayHelper::getValue($this->options, 'getViewLink');
-        if (is_callable($func))
-            return call_user_func($func, $model);
-
-        if (method_exists($model, 'getController')){
+       if (method_exists($model, 'getController')){
             $controller = call_user_func([$model, 'getController']);
             return [$controller . '/view', 'id' => $model->id];
         }
