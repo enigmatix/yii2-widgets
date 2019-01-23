@@ -18,7 +18,7 @@ class DataColumn extends \yii\grid\DataColumn
     protected function renderDataCellContent($model, $key, $index)
     {
         $content = parent::renderDataCellContent($model, $key, $index);
-        return Html::a($content,$this->getViewUrl($model),['class' => 'btn-block']);
+        return Html::a($content,$this->getViewUrl($model),['class' => 'btn-block','data-pjax' => 0]);
     }
 
     protected function getViewUrl($model)
