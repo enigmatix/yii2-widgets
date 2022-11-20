@@ -1,26 +1,40 @@
 <?php
 namespace enigmatix\widgets;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\web\JsExpression;
+
 /**
  * Class Select2
  * @package enigmatix\widgets
  * @author Joel Small
  * @email joel.small@biscon.com.au
  *
- * This class creates a widget that creates a list of tags in the form of a tag cloud.
+ * This class creates a date widget for a yii2 form input.
  *
  */
 
 class DatePicker extends \yii\widgets\InputWidget
 {
+    public $startDate;
+    public $endDate;
+
     public $pluginOptions = [
-            'format' => 'yyyy-mm-dd',
-            'startView' => 'decade',
-        ];
+        'format' => 'yyyy-mm-dd',
+        'startView' => 'decade',
+    ];
 
     protected function getOptions()
     {
+        if($this->startDate !== null){
+            $this->pluginOptions['startDate'] = new JsExpression("new Date('{$this->startDate}')");
+        }
+
+        if($this->endDate !== null){
+            $this->pluginOptions['endDate'] = new JsExpression("new Date('{$this->endDate}')");
+        }
+
         return Json::encode(
             $this->pluginOptions
         );
