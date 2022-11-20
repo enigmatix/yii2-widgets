@@ -9,7 +9,6 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "enigmatix/yii2-widgets":"*",
         "npm-asset/bootstrap-datepicker": "*"
     },
     "minimum-stability": "stable",
